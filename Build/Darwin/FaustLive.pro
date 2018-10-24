@@ -63,6 +63,11 @@ QMAKE_INFO_PLIST = FaustLiveInfo.plist
 
 ####### INCLUDES PATHS && LIBS PATHS
 
+# Use user environment flags
+QMAKE_CXXFLAGS += $$(CXXFLAGS)
+QMAKE_CFLAGS += $$(CFLAGS)
+QMAKE_LFLAGS += $$(LDFLAGS)
+
 DEPENDPATH += $$FAUSTDIR/include/faust/gui
 INCLUDEPATH += .
 INCLUDEPATH += /opt/local/include
@@ -102,6 +107,8 @@ LIBS+=-lcrypto
 
 LIBS+=-lcurl
 LIBS+=-L/opt/local/lib
+
+LIBS+=-lsndfile
 
 DEFINES += HTTPCTRL
 DEFINES += QRCODECTRL

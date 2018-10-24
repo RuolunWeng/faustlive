@@ -23,7 +23,7 @@ void JA_audioManager::shutdown_message(const char * msg, void* arg)
 JA_audioManager::JA_audioManager(shutdown_callback cb, void* arg): AudioManager(cb, arg)
 {
     fCurrentAudio = new JA_audioFader;
-    fCurrentAudio->shutdown(cb, arg);
+    fCurrentAudio->setShutdownCb(cb, arg);
 }
 
 JA_audioManager::~JA_audioManager()
@@ -34,7 +34,7 @@ JA_audioManager::~JA_audioManager()
 //INIT/START/STOP on Current JackAudio
 bool JA_audioManager::initAudio(QString& error, const char* name, bool midi)
 {
-    if (fCurrentAudio->init(name, 0, midi)) {
+    if (fCurrentAudio->init(name, 0)) {
         return true;
     } else {
         error = "Impossible to init JackAudio Client";

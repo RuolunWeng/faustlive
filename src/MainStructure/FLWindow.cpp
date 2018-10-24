@@ -55,8 +55,7 @@
 #include "faust/dsp/remote-dsp.h"
 #endif
 
-#include "faust/dsp/llvm-dsp.h"
-#include "faust/dsp/poly-dsp.h"
+#include "faust/dsp/poly-llvm-dsp.h"
 
 list<GUI*> GUI::fGuiList;
 ztimedmap GUI::gTimedZoneMap;
@@ -93,7 +92,7 @@ FLWindow::FLWindow(QString& baseName, int index, const QString& home, FLWinSetti
     fOscInterface = NULL;
     fMIDIInterface = NULL;
     fMIDIHandler = NULL;
-
+ 
     fInterface = NULL;
     fRCInterface = NULL;
     fCurrentDSP = NULL;
@@ -975,17 +974,17 @@ bool FLWindow::allocateInterfaces(const QString& nameEffect)
 
 void FLWindow::addInMIDIHandler(dsp* dsp)
 {
-    mydsp_poly* poly = dynamic_cast<mydsp_poly*>(dsp);
-    if (poly && fMIDIHandler) {
-        fMIDIHandler->addMidiIn(poly);
+    bool polyphony = fSettings->value("Polyphony/Enabled", FLSettings::_Instance()->value("General/Control/PolyphonyDefaultChecked", false)).toBool();
+    if (polyphony && fMIDIHandler) {
+        fMIDIHandler->addMidiIn(static_cast<dsp_poly_effect*>(dsp));
     }
 }
 
 void FLWindow::removeFromMIDIHandler(dsp* dsp)
 {
-    mydsp_poly* poly = dynamic_cast<mydsp_poly*>(dsp);
-    if (poly && fMIDIHandler) {
-        fMIDIHandler->removeMidiIn(poly);
+    bool polyphony = fSettings->value("Polyphony/Enabled", FLSettings::_Instance()->value("General/Control/PolyphonyDefaultChecked", false)).toBool();
+    if (polyphony && fMIDIHandler) {
+        fMIDIHandler->removeMidiIn(static_cast<dsp_poly_effect*>(dsp));
     }
 }
 

@@ -48,6 +48,11 @@ QMAKE_INFO_PLIST = FaustLiveInfo.plist
 
 ####### INCLUDES PATHS && LIBS PATHS
 
+# Use user environment flags
+QMAKE_CXXFLAGS += $$(CXXFLAGS)
+QMAKE_CFLAGS += $$(CFLAGS)
+QMAKE_LFLAGS += $$(LDFLAGS)
+
 DEPENDPATH += $$FAUSTDIR/include/faust/gui
 INCLUDEPATH += .
 INCLUDEPATH += /opt/local/include	
@@ -70,7 +75,6 @@ equals(static, 1){
 	#LIBS+=/usr/local/lib/libqrencode.a
 	#LIBS+=/usr/local/lib/libmicrohttpd.a
 	#LIBS+=-lgnutls
-	#LIBS+=/usr/lib/x86_64-linux-gnu/libcrypto.a
 	#LIBS+=/usr/lib/x86_64-linux-gnu/libgnutls.a
 	#LIBS+=/lib/x86_64-linux-gnu/libgcrypt.a
 	#LIBS+=/usr/lib/x86_64-linux-gnu/libgpg-error.a
